@@ -1,0 +1,17 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://c0sci8mmg4ufv"
+path="res://.godot/imported/comics.fnt-a575b052d149a55bd9aa4cc42cf42944.fontdata"
+
+[deps]
+
+source_file="res://contents/fonts/comics.fnt"
+dest_files=["res://.godot/imported/comics.fnt-a575b052d149a55bd9aa4cc42cf42944.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true
+scaling_mode=2

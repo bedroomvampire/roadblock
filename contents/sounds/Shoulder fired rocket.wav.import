@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dqcdn7enklikk"
+path="res://.godot/imported/Shoulder fired rocket.wav-82024bfda42987b671de8f5ea2c8e43c.sample"
+
+[deps]
+
+source_file="res://contents/sounds/Shoulder fired rocket.wav"
+dest_files=["res://.godot/imported/Shoulder fired rocket.wav-82024bfda42987b671de8f5ea2c8e43c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

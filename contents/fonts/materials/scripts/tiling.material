@@ -1,0 +1,336 @@
+
+vertex_program SlateVP_nobump cg
+{
+	source fonts/materials/programs/tiling.cgfx
+
+	profiles vs_2_0 arbvp1
+	entry_point tiling_vp_simple
+
+	default_params
+	{
+		param_named_auto WorldITXf inverse_transpose_world_matrix
+		param_named_auto WorldXf world_matrix
+		param_named_auto ViewIXf inverse_view_matrix
+		param_named_auto WvpXf worldviewproj_matrix
+		param_named_auto AmbiColor ambient_light_colour
+		param_named_auto Lamp0Pos light_position 0
+		param_named_auto Lamp1Pos light_position 1
+		param_named_auto Lamp0Color light_diffuse_colour 0
+		param_named_auto Lamp1Color light_diffuse_colour 1
+		param_named BorderAndTileFreq float4 0.5 0.5 0.125 0.125 
+		// tiling : for 512x512 looks about right at 0.125. this is 64 pixels per stud.
+		// border : smaller than 0.5 causes too much stretching on normal size bricks. at 0.5, you get 64 pixels per stud with 
+	}
+}
+
+
+fragment_program SlateFP_nobump cg
+{
+	source fonts/materials/programs/tiling.cgfx
+	entry_point tiling_fp_simple
+	profiles ps_2_x arbfp1
+
+	default_params
+	{
+		param_named_auto Lamp0Color light_diffuse_colour 0
+		param_named Ks float  0.1
+		param_named SpecExpon float  30
+	}
+}
+
+vertex_program SlateVP cg
+{
+	source fonts/materials/programs/tiling.cgfx
+
+	profiles vs_2_x
+	entry_point tiling_vp_bump
+
+	default_params
+	{
+		param_named_auto WorldITXf inverse_transpose_world_matrix
+		param_named_auto WorldXf world_matrix
+		param_named_auto ViewIXf inverse_view_matrix
+		param_named_auto WvpXf worldviewproj_matrix
+		param_named_auto Lamp0Pos light_position 0
+		param_named_auto Lamp1Pos light_position 1
+		param_named BorderAndTileFreq float4 0.5 0.5 0.125 0.125
+	}
+}
+
+
+
+fragment_program SlateFP cg
+{
+	source fonts/materials/programs/tiling.cgfx
+	entry_point tiling_fp_bump
+	profiles ps_2_x
+
+	default_params
+	{
+		param_named_auto AmbiColor ambient_light_colour
+		param_named_auto Lamp0Color light_diffuse_colour 0
+		param_named_auto Lamp1Color light_diffuse_colour 1
+		param_named Ks float  0.1
+		param_named SpecExpon float  30
+	}
+}
+
+//todo: need a med and high quality studless once we decide to go with high fidelidty plastic.
+material SlateStudless
+{
+	// reserver a spot for proper fallback order in dervied Slate_High
+	technique Procedural_lod0
+	{
+		lod_index 0
+		scheme Unused
+	}
+	
+	technique LegacyFF_lod0
+	{
+		pass
+		{
+			ambient vertexcolour
+			diffuse vertexcolour
+			specular 0.1 0.1 0.1 30
+		}
+	}
+
+	technique lod1
+	{
+		// no lod specified: inactive.
+		pass
+		{
+			ambient vertexcolour
+			diffuse vertexcolour
+			specular 0.1 0.1 0.1 30
+		}
+	}
+	
+}
+
+material SlateStudlessTransparent : SlateStudless
+{
+	technique LegacyFF_lod0
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+		}
+	}
+
+	technique lod1
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+		}
+	}
+}
+
+
+material Slate_Low : SlateStudless
+{
+	technique LegacyFF_lod0
+	{
+		pass 
+		{
+			max_lights 2
+			
+			texture_unit
+			{
+				texture_alias Studs
+				tex_coord_set 0
+				texture textures/SurfacesAlpha.png
+		        colour_op alpha_blend
+				//ignore alpha from SurfaceAlpha.png. Use fixed alpha. VERY IMPORTANT FOR OFF-SCREEN RENDERING!
+		        alpha_op_ex source1 src_manual src_manual 1 1 1
+		        filtering trilinear
+			}
+		}
+	}
+}
+
+material Slate_Med : SlateStudless
+{
+	lod_distances 200.0
+	
+	technique LegacyFF_lod0
+	{
+		lod_index 0
+		
+		pass
+		{
+			max_lights 2
+			
+			texture_unit
+			{
+				tex_coord_set 1
+				texture textures/SlateTileMono.png
+		        colour_op_ex add_signed src_texture src_current
+				//ignore alpha from SurfaceAlpha.png. Use fixed alpha. VERY IMPORTANT FOR OFF-SCREEN RENDERING!
+		        alpha_op_ex source1 src_manual src_manual 1 1 1
+		        filtering trilinear
+		        transform 0.125 0 0 0 0 0.125 0 0 0 0 0.125 0 0 0 0 1
+			}
+
+			texture_unit
+			{
+				texture_alias Studs
+				tex_coord_set 0
+				texture textures/SurfacesAlpha.png
+				colour_op alpha_blend
+				//ignore alpha from SurfaceAlpha.png. Use fixed alpha. VERY IMPORTANT FOR OFF-SCREEN RENDERING!
+		        alpha_op_ex source1 src_manual src_manual 1 1 1
+				filtering trilinear
+			}
+			
+		}
+	}
+	
+	technique lod1
+	{
+		lod_index 1
+
+		pass
+		{
+			max_lights 2
+		
+			texture_unit
+			{
+				tex_coord_set 1
+				texture textures/SlateTileMono.png
+		        colour_op_ex add_signed src_texture src_current
+				//ignore alpha from SurfaceAlpha.png. Use fixed alpha. VERY IMPORTANT FOR OFF-SCREEN RENDERING!
+		        alpha_op_ex source1 src_manual src_manual 1 1 1
+		        filtering trilinear
+		        transform 0.125 0 0 0 0 0.125 0 0 0 0 0.125 0 0 0 0 0.125
+			}
+		}
+	}	
+}
+
+material Slate_High : Slate_Med
+{
+	technique Procedural_lod0
+	{
+		scheme Default
+		lod_index 0
+		
+		pass
+		{
+			max_lights 2
+			
+			vertex_program_ref SlateVP
+			{
+			}
+
+			fragment_program_ref SlateFP
+			{
+			
+			}
+			
+			texture_unit
+			{
+				texture_alias Studs
+				tex_coord_set 0
+				texture textures/SurfacesAlpha.png
+		        filtering trilinear
+			}
+
+			texture_unit
+			{
+				tex_coord_set 1
+				texture textures/SlateTile.dds
+		        filtering trilinear
+			}
+
+			texture_unit
+			{
+				tex_coord_set 2
+				texture textures/SlateBorder.dds
+		        filtering trilinear
+			}
+		}
+	}
+	
+	technique LegacyFF_lod0
+	{
+		// allow fallback to _Med quality if Procedural Not supported
+		scheme Default
+	}
+	
+	technique lod1
+	{
+	}	
+
+}
+
+material SlateTransparent_Low : Slate_Low
+{
+	technique LegacyFF_lod0
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				//ignore alpha from SurfaceAlpha.png. Use alpha from vertices.
+		        alpha_op_ex source1 src_diffuse src_texture
+			}
+		}
+	}
+}
+
+material SlateTransparent_Med : Slate_Med
+{
+	technique LegacyFF_lod0
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+			
+			texture_unit
+			{
+				//ignore alpha from SurfaceAlpha.png. Use alpha from vertices.
+				alpha_op_ex source1 src_diffuse src_texture
+			}
+			
+			texture_unit
+			{
+				//ignore alpha from SurfaceAlpha.png. Use alpha from vertices.
+				alpha_op_ex source1 src_diffuse src_texture
+			}					
+			
+		}
+	}
+}
+
+material SlateTransparent_High : Slate_High
+{
+	technique LegacyFF_lod0
+	{
+		pass
+		{
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				//ignore alpha from SurfaceAlpha.png. Use alpha from vertices.
+				alpha_op_ex source1 src_diffuse src_texture
+			}
+			
+			texture_unit
+			{
+				//ignore alpha from SurfaceAlpha.png. Use alpha from vertices.
+				alpha_op_ex source1 src_diffuse src_texture
+			}					
+		}
+	}
+}
+

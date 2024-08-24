@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://vg4drerhyb0o"]
+
+[ext_resource type="Texture2D" uid="uid://c05yrhfll8ild" path="res://contents/textures/face.png" id="1_1vy8s"]
+
+[resource]
+resource_name = "Material"
+transparency = 1
+disable_ambient_light = true
+albedo_texture = ExtResource("1_1vy8s")

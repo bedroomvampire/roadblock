@@ -1,0 +1,17 @@
+[remap]
+
+importer="font_data_bmfont"
+type="FontFile"
+uid="uid://bvd354txjy5fx"
+path="res://.godot/imported/diogenes.fnt-2c3bfbb4047abb06b81ff2439f4bcc1f.fontdata"
+
+[deps]
+
+source_file="res://contents/fonts/diogenes.fnt"
+dest_files=["res://.godot/imported/diogenes.fnt-2c3bfbb4047abb06b81ff2439f4bcc1f.fontdata"]
+
+[params]
+
+fallbacks=[]
+compress=true
+scaling_mode=2

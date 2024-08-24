@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://blanng0m8f1i5"
+path="res://.godot/imported/Kid saying Ouch.wav-e241af410de00138a0af911691cc2f63.sample"
+
+[deps]
+
+source_file="res://contents/sounds/Kid saying Ouch.wav"
+dest_files=["res://.godot/imported/Kid saying Ouch.wav-e241af410de00138a0af911691cc2f63.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

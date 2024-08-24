@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bvi2jmuwpn4ek"
+path="res://.godot/imported/Short spring sound.wav-7f7bd0e151f296a031386fd4c5d68bd7.sample"
+
+[deps]
+
+source_file="res://contents/sounds/Short spring sound.wav"
+dest_files=["res://.godot/imported/Short spring sound.wav-7f7bd0e151f296a031386fd4c5d68bd7.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

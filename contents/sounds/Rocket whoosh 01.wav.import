@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c78u3dx4svb0f"
+path="res://.godot/imported/Rocket whoosh 01.wav-ff0f7b5fa1013e701b4289af24c374ac.sample"
+
+[deps]
+
+source_file="res://contents/sounds/Rocket whoosh 01.wav"
+dest_files=["res://.godot/imported/Rocket whoosh 01.wav-ff0f7b5fa1013e701b4289af24c374ac.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
