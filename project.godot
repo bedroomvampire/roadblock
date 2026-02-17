@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Roadblock"
 run/main_scene="res://node_3d.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
@@ -25,6 +29,10 @@ window/size/viewport_width=1024
 window/size/viewport_height=768
 mouse_cursor/custom_image="res://contents/textures/ArrowCursor.png"
 mouse_cursor/custom_image_hotspot=Vector2(40, 40)
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/lua-gdextension/plugin.cfg")
 
 [input]
 
@@ -77,8 +85,9 @@ scroll_down={
 
 [physics]
 
-3d/physics_engine="JoltPhysics3D"
+3d/physics_engine="Jolt Physics"
 3d/default_gravity=34.3
+common/physics_interpolation=true
 
 [rendering]
 

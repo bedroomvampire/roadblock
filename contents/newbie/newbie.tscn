@@ -1,15 +1,16 @@
-[gd_scene load_steps=26 format=3 uid="uid://22dveue4vdmj"]
+[gd_scene format=3 uid="uid://22dveue4vdmj"]
 
-[ext_resource type="Script" path="res://contents/scripts/player/controller.gd" id="1_xjcy2"]
+[ext_resource type="Script" uid="uid://4yig6ob56c1g" path="res://contents/scripts/player/controller.gd" id="1_xjcy2"]
 [ext_resource type="AudioStream" uid="uid://4fhiib435nqq" path="res://contents/sounds/uuhhh.wav" id="2_txc5c"]
-[ext_resource type="Script" path="res://contents/scripts/entity/generic/health.gd" id="3_eidq2"]
+[ext_resource type="Script" uid="uid://bbc8pq1pebkv" path="res://contents/scripts/entity/generic/health.gd" id="3_eidq2"]
 [ext_resource type="PackedScene" uid="uid://cj53hn6kg7mm5" path="res://contents/newbie/newbie.glb" id="4_yrx6w"]
-[ext_resource type="Script" path="res://contents/scripts/player/camera.gd" id="5_5t6yp"]
+[ext_resource type="Script" uid="uid://c3vkytmsiuv5p" path="res://contents/scripts/player/camera.gd" id="5_5t6yp"]
 [ext_resource type="AudioStream" uid="uid://bbo12d1bytu0s" path="res://contents/sounds/SWITCH3.wav" id="6_6maql"]
 [ext_resource type="Texture2D" uid="uid://ba70cymcttdpy" path="res://contents/textures/CameraTiltUp.png" id="7_6bqr5"]
 [ext_resource type="Texture2D" uid="uid://cbh2bcauhho82" path="res://contents/textures.bak/CameraTiltDown.png" id="8_ch7qa"]
 [ext_resource type="Texture2D" uid="uid://b63w2g4and6cv" path="res://contents/textures.bak/CameraZoomIn.png" id="9_cogoy"]
 [ext_resource type="Texture2D" uid="uid://bll74xogklke8" path="res://contents/textures.bak/CameraZoomOut.png" id="10_wjsfc"]
+[ext_resource type="Texture2D" uid="uid://csjnjrd4xrssl" path="res://contents/textures/FirstPersonIndicator.png" id="11_cix4w"]
 [ext_resource type="AudioStream" uid="uid://db35mwru4r1lq" path="res://contents/sounds/bfsl-minifigfoots1.mp3" id="11_gqevg"]
 [ext_resource type="AudioStream" uid="uid://dq4qx31trwgph" path="res://contents/sounds/swoosh.wav" id="12_3kthx"]
 
@@ -71,55 +72,57 @@ states/Walk/position = Vector2(529.333, 102)
 transitions = ["Idle", "Walk", SubResource("AnimationNodeStateMachineTransition_j8gfy"), "Idle", "Jump", SubResource("AnimationNodeStateMachineTransition_t4ose"), "Walk", "Idle", SubResource("AnimationNodeStateMachineTransition_nk7rm"), "Walk", "Jump", SubResource("AnimationNodeStateMachineTransition_uslbc"), "Jump", "Walk", SubResource("AnimationNodeStateMachineTransition_20nga"), "Jump", "Idle", SubResource("AnimationNodeStateMachineTransition_wrl1q"), "Start", "Idle", SubResource("AnimationNodeStateMachineTransition_4lvqh")]
 graph_offset = Vector2(-18.8984, -10.9453)
 
-[node name="CharacterBody3D" type="CharacterBody3D" node_paths=PackedStringArray("char_model")]
+[node name="CharacterBody3D" type="CharacterBody3D" unique_id=1438815668 node_paths=PackedStringArray("char_model", "PLAYER_COLLIDER")]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("1_xjcy2")
 char_model = NodePath("newbie")
+PLAYER_COLLIDER = NodePath("BodyCollision")
+MAX_STEP_DOWN = 0.0
 
-[node name="oof" type="AudioStreamPlayer3D" parent="."]
+[node name="oof" type="AudioStreamPlayer3D" parent="." unique_id=212782361]
 stream = ExtResource("2_txc5c")
 
-[node name="Health" type="Node" parent="."]
+[node name="Health" type="Node" parent="." unique_id=1860738720]
 script = ExtResource("3_eidq2")
 
-[node name="BodyCollision" type="CollisionShape3D" parent="."]
+[node name="BodyCollision" type="CollisionShape3D" parent="." unique_id=14865911]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("BoxShape3D_tki2q")
 
-[node name="HeadCollision" type="CollisionShape3D" parent="."]
+[node name="HeadCollision" type="CollisionShape3D" parent="." unique_id=866487287]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0)
 shape = SubResource("CylinderShape3D_rahy8")
 
-[node name="newbie" parent="." instance=ExtResource("4_yrx6w")]
+[node name="newbie" parent="." unique_id=1349500468 instance=ExtResource("4_yrx6w")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
-[node name="Skeleton3D" parent="newbie/Armature" index="0"]
-bones/5/rotation = Quaternion(0, 0.707107, 0, 0.707107)
-bones/6/rotation = Quaternion(0, -0.707107, 0, 0.707107)
+[node name="Skeleton3D" parent="newbie/Armature" parent_id_path=PackedInt32Array(1349500468, 1548160016) index="0" unique_id=1291740503]
+bones/5/rotation = Quaternion(0, 0.7071068, 0, 0.7071068)
+bones/6/rotation = Quaternion(0, -0.7071068, 0, 0.7071068)
 
-[node name="AnimationTree" type="AnimationTree" parent="newbie"]
+[node name="AnimationTree" type="AnimationTree" parent="newbie" unique_id=1056618434]
 tree_root = SubResource("AnimationNodeStateMachine_dp45i")
 anim_player = NodePath("../AnimationPlayer")
 parameters/conditions/idle = false
 parameters/conditions/jump = false
 parameters/conditions/walk = false
 
-[node name="SpringCamera" type="SpringArm3D" parent="." node_paths=PackedStringArray("zoom_sound")]
+[node name="SpringCamera" type="SpringArm3D" parent="." unique_id=534118043 node_paths=PackedStringArray("zoom_sound")]
 transform = Transform3D(1, 0, 0, 0, 0.991445, 0.130526, 0, -0.130526, 0.991445, 0, 2.3, 0)
 spring_length = 5.0
 script = ExtResource("5_5t6yp")
 zoom_sound = NodePath("SWITCH3")
 
-[node name="Camera3D" type="Camera3D" parent="SpringCamera"]
+[node name="Camera3D" type="Camera3D" parent="SpringCamera" unique_id=1635129034]
 fov = 70.0
 
-[node name="SWITCH3" type="AudioStreamPlayer" parent="SpringCamera"]
+[node name="SWITCH3" type="AudioStreamPlayer" parent="SpringCamera" unique_id=307474302]
 stream = ExtResource("6_6maql")
 volume_db = -6.0
 max_polyphony = 4
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=1433809214]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -128,41 +131,41 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 
-[node name="Button" type="Button" parent="Control"]
+[node name="Button" type="Button" parent="Control" unique_id=1488477609]
 layout_mode = 0
 offset_right = 96.0
 offset_bottom = 31.0
 text = "Tools"
 
-[node name="Button2" type="Button" parent="Control"]
+[node name="Button2" type="Button" parent="Control" unique_id=1470299615]
 layout_mode = 0
 offset_left = 96.0
 offset_right = 192.0
 offset_bottom = 31.0
 text = "Insert"
 
-[node name="Button3" type="Button" parent="Control"]
+[node name="Button3" type="Button" parent="Control" unique_id=1624488197]
 layout_mode = 0
 offset_left = 192.0
 offset_right = 288.0
 offset_bottom = 31.0
 text = "Fullscreen"
 
-[node name="Button4" type="Button" parent="Control"]
+[node name="Button4" type="Button" parent="Control" unique_id=974860694]
 layout_mode = 0
 offset_left = 288.0
 offset_right = 384.0
 offset_bottom = 31.0
 text = "Help"
 
-[node name="Button5" type="Button" parent="Control"]
+[node name="Button5" type="Button" parent="Control" unique_id=607167869]
 layout_mode = 0
 offset_left = 384.0
 offset_right = 480.0
 offset_bottom = 31.0
 text = "Exit"
 
-[node name="ColorRect" type="ColorRect" parent="Control"]
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=1902484240]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -174,23 +177,23 @@ offset_bottom = 192.0
 grow_horizontal = 0
 color = Color(0.5, 0.5, 0.5, 0.498039)
 
-[node name="Label" type="Label" parent="Control/ColorRect"]
+[node name="Label" type="Label" parent="Control/ColorRect" unique_id=860970388]
 layout_mode = 0
 offset_right = 80.0
 offset_bottom = 23.0
 text = "Player List"
 
-[node name="Playerlist" type="VBoxContainer" parent="Control/ColorRect"]
+[node name="Playerlist" type="VBoxContainer" parent="Control/ColorRect" unique_id=1378504]
 layout_mode = 0
 offset_top = 32.0
 offset_right = 92.0
 offset_bottom = 72.0
 
-[node name="Label" type="Label" parent="Control/ColorRect/Playerlist"]
+[node name="Label" type="Label" parent="Control/ColorRect/Playerlist" unique_id=1400907590]
 layout_mode = 2
 text = "Placeholder"
 
-[node name="VSlider" type="VSlider" parent="Control/ColorRect"]
+[node name="VSlider" type="VSlider" parent="Control/ColorRect" unique_id=1208972463]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -206,7 +209,7 @@ grow_vertical = 0
 editable = false
 scrollable = false
 
-[node name="Label" type="Label" parent="Control/ColorRect/VSlider"]
+[node name="Label" type="Label" parent="Control/ColorRect/VSlider" unique_id=1457350928]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -221,7 +224,7 @@ grow_vertical = 0
 text = "Health"
 horizontal_alignment = 1
 
-[node name="Label" type="LineEdit" parent="Control"]
+[node name="Label" type="LineEdit" parent="Control" unique_id=1085289947]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -232,7 +235,7 @@ grow_horizontal = 2
 grow_vertical = 0
 placeholder_text = "To chat click here or press the \"/\" key"
 
-[node name="Button" type="Button" parent="Control/Label"]
+[node name="Button" type="Button" parent="Control/Label" unique_id=370305198]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -245,10 +248,11 @@ offset_right = -32.0
 offset_bottom = -56.0
 grow_horizontal = 0
 grow_vertical = 0
+focus_mode = 0
 icon = ExtResource("7_6bqr5")
 flat = true
 
-[node name="Button3" type="Button" parent="Control/Label"]
+[node name="Button3" type="Button" parent="Control/Label" unique_id=581341285]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -261,10 +265,11 @@ offset_right = -32.0
 offset_bottom = -32.0
 grow_horizontal = 0
 grow_vertical = 0
+focus_mode = 0
 icon = ExtResource("8_ch7qa")
 flat = true
 
-[node name="Button2" type="Button" parent="Control/Label"]
+[node name="Button2" type="Button" parent="Control/Label" unique_id=1790031019]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -277,10 +282,11 @@ offset_right = -8.0
 offset_bottom = -56.0
 grow_horizontal = 0
 grow_vertical = 0
+focus_mode = 0
 icon = ExtResource("9_cogoy")
 flat = true
 
-[node name="Button4" type="Button" parent="Control/Label"]
+[node name="Button4" type="Button" parent="Control/Label" unique_id=775004516]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -293,22 +299,35 @@ offset_right = -8.0
 offset_bottom = -32.0
 grow_horizontal = 0
 grow_vertical = 0
+focus_mode = 0
 icon = ExtResource("10_wjsfc")
 flat = true
 
-[node name="walk" type="AudioStreamPlayer3D" parent="."]
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=1840819641]
+layout_mode = 0
+offset_left = 904.0
+offset_top = 640.0
+offset_right = 1016.0
+offset_bottom = 680.0
+texture = ExtResource("11_cix4w")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="walk" type="AudioStreamPlayer3D" parent="." unique_id=1294659613]
 stream = ExtResource("11_gqevg")
 unit_size = 20.0
 max_db = 6.0
 
-[node name="jump" type="AudioStreamPlayer3D" parent="."]
+[node name="jump" type="AudioStreamPlayer3D" parent="." unique_id=1512155913]
 stream = ExtResource("12_3kthx")
 
-[node name="RespawnTimer" type="Timer" parent="."]
+[node name="RespawnTimer" type="Timer" parent="." unique_id=1750107493]
 wait_time = 5.0
 one_shot = true
 
 [connection signal="death" from="Health" to="." method="_on_death"]
+[connection signal="pressed" from="Control/Label/Button2" to="SpringCamera" method="change_zoom" binds= [-1]]
+[connection signal="pressed" from="Control/Label/Button4" to="SpringCamera" method="change_zoom" binds= [1]]
 [connection signal="finished" from="walk" to="." method="walk_sound_finished"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
 

@@ -31,13 +31,14 @@ func handle_camera_rotation(event):
 
 func handle_scroll_zoom(event):
 	if event.is_action_pressed("scroll_up"):
-		spring_length -= 1
-		spring_length = clamp(spring_length, 0, 999)
-		zoom_sound.play()
+		change_zoom(-1)
 	if event.is_action_pressed("scroll_down"):
-		spring_length += 1
-		spring_length = clamp(spring_length, 0, 999)
-		zoom_sound.play()
+		change_zoom(1)
+
+func change_zoom(number):
+	spring_length += number
+	spring_length = clamp(spring_length, 0, 999)
+	zoom_sound.play()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

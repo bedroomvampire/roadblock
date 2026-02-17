@@ -1,4 +1,4 @@
-extends CharacterBody3D
+extends StairsCharacterBody3D
 
 @export var char_model : Node3D
 
@@ -24,6 +24,7 @@ func _process(_delta):
 	hp_slider.value = health.health
 
 func _physics_process(delta):
+	super(delta)
 	body_collision.global_rotation = char_model.global_rotation
 	
 	# Add the gravity.
@@ -68,12 +69,12 @@ func _physics_process(delta):
 	anim_tree.set("parameters/conditions/idle", !direction && is_on_floor())
 	anim_tree.set("parameters/conditions/walk", direction && is_on_floor() && !health.has_died)
 	anim_tree.set("parameters/conditions/jump", !is_on_floor())
-	move_and_slide()
 	
 	for i in get_slide_collision_count():
 		var c = get_slide_collision(i)
 		if c.get_collider() is RigidBody3D:
-			c.get_collider().apply_central_impulse(-c.get_normal() * 1)
+			var a = Vector3(c.get_normal().x, 0, c.get_normal().z)
+			c.get_collider().apply_central_impulse(-a * 1)
 
 func walk_sound_finished():
 	walk_finish = true
